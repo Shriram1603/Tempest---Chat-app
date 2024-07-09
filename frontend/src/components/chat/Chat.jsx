@@ -1,8 +1,20 @@
 import React from 'react'
+import {useState} from 'react'
+import EmojiPicker from "emoji-picker-react";
 import "./chat.css"
 
 
 const Chat = () => {
+
+  const[open,setOpen]=useState(false)
+  const[Text,setText]=useState("")
+
+
+  const handleEmoji = e =>{
+    setText(prev => prev + e.emoji)
+    setOpen(false)
+  }
+
   return (
     <div className='chat'>
 
@@ -25,9 +37,20 @@ const Chat = () => {
       <div className="center"></div>
 
       <div className="bottom">
-        <div className="icon"></div>
+        <div className="icon">
+          <img src="/assets/img.png" alt="" />
+          <img src="/assets/camera.png" alt="" />
+          <img src="/assets/mic.png" alt="" />
+        </div>
 
-        <input type="text" placeholder='Message' />
+        <input type="text" placeholder='Type a Message...'value={Text} onChange={(e)=>setText(e.target.value)}/>
+        <div className="emoji">
+          <img src="/assets/emoji.png" alt="Emoji" onClick={()=>setOpen(!open)}/>
+          <div className="picker">
+            {open ?<EmojiPicker onEmojiClick={handleEmoji}/>:null}
+          </div>
+        </div>
+        <button className='sendbutton'>Send</button>
       </div>
     </div>
   )
