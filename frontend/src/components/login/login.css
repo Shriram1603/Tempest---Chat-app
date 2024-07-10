@@ -1,0 +1,113 @@
+.login{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    gap: 100px;            
+
+    .item{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        flex: 1; 
+        gap: 20px;
+        color: aliceblue;
+        h2{
+            font-size: 20px;
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;  
+
+            input{
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                outline: none;
+                background-color: #2f2d52;
+                color: aliceblue;
+
+
+            }
+            .button{
+                border: none;
+                outline: none;
+                background-color: #8da4f1;
+                color: #fff;
+                padding: 10px 20px;
+                border-radius: 10px;
+                cursor: pointer;
+            }
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+              }
+              
+              .button span:after {
+                content: '\00bb';
+                position: absolute;
+                opacity: 0;
+                top: 0;
+                right: -20px;
+                transition: 0.5s;
+              }
+              
+              .button:hover span {
+                padding-right: 25px;
+              }
+              
+              .button:hover span:after {
+                opacity: 1;
+                right: 0;
+              }
+
+
+            label{
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                cursor: pointer;
+
+                span{
+                    color: #999;
+                    font-size: 16px;
+                    font-weight: 200;
+                    text-decoration: underline;
+                    
+                }
+                span:hover{
+                    opacity: 0.8;
+                    color: #fff;
+                }
+
+                img{
+                    width: 50px;
+                    height: 50px;
+                    object-fit: cover;
+                    border-radius: 10%;
+                }
+                img:hover{
+                    opacity: 0.8;
+                    transform: scale(1.2);
+                    transition: 0.5s;
+                    cursor: pointer;
+                }
+
+
+            }
+        }
+    }
+
+    .seperator{
+        width: 2px;
+        height: 80%;
+        background-color: #dddddd35;
+    }
+}
