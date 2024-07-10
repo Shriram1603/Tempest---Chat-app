@@ -1,0 +1,116 @@
+.adduser{
+    padding: 30px;
+    background-color: #000000d3;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: max-content;
+    height: max-content;
+    
+    form{
+        display: flex;
+        gap: 20px;
+        input{
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+        button{
+            border: none;
+            outline: none;
+            background-color: #8da4f1;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+          }
+          
+          button span:after {
+            content: '\1F50E';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+          }
+          
+          button:hover span {
+            padding-right: 25px;
+          }
+          
+          button:hover span:after {
+            opacity: 1;
+            right: 0;
+          }
+    }
+
+    .user{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: space-between;
+        margin-top: 30px;
+        .detail{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            img{
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
+            span{
+                font-size: 16px;
+            }
+        }
+        button{
+            border: none;
+            outline: none;
+            background-color: #8da4f1;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+          }
+          
+          button span:after {
+            content: '\1F464';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+          }
+          
+          button:hover span {
+            padding-right: 25px;
+          }
+          
+          button:hover span:after {
+            opacity: 1;
+            right: 0;
+          }
+    }
+    
+}

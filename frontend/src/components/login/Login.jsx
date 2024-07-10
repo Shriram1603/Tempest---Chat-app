@@ -22,8 +22,8 @@ const Login = () => {
         e.preventDefault()
         console.log("login")
         // toast.warn("Login not implemented yet")
-        // toast.success("Login Success")
-        toast.error("Login Failed");
+        toast.success("Login Success")
+        // toast.error("Login Failed");
     }
 
   return (
