@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import './login.css'
+import { toast } from 'react-toastify'
 const Login = () => {
 
     const[avatar,setAvatar]=useState({
@@ -16,11 +17,20 @@ const Login = () => {
         })}
     }
 
+
+    const handleLogin=(e)=>{
+        e.preventDefault()
+        console.log("login")
+        // toast.warn("Login not implemented yet")
+        // toast.success("Login Success")
+        toast.error("Login Failed");
+    }
+
   return (
     <div className="login">
         <div className="item">
             <h2>Welcome Back</h2>
-            <form action="">
+            <form onSubmit={handleLogin}>
                 <input type="text" placeholder='username' name='username' />
                 <input type="text" placeholder='password' name='password' />
                 <button className='button'><span>Login</span></button>

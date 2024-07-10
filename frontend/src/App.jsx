@@ -1,5 +1,6 @@
 
 import './App.css'
+import Notification from './components/Notfication/Notification';
 import Chat from './components/chat/Chat'
 import Details from './components/details/Details'
 import List from './components/list/List'
@@ -17,6 +18,7 @@ function App() {
      <Details/>
     </>):<Login/>
 }
+  <Notification/>
     </div>
   )
 }
