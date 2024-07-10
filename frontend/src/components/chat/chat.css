@@ -50,10 +50,66 @@
 
     .center{
         flex:1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         padding: 20px;
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: column;
+        gap:20px;
+        .message{
+            display: flex;
+            gap: 20px;
+            max-width: 70%;
+
+            &.own{
+                align-self: flex-end;
+                img{
+                    order: 0;
+                }
+                .texts{
+                    p{
+                    background-color: #6c88e3;
+                    }
+                    
+                }
+                
+            }
+            
+            img{
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+            .texts{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 10px;
+                }
+
+                b{
+                    font-size: 18px;
+                    font-weight: 500;
+                }
+                p{
+                    font-size: 14px;
+                    color: #dadada;
+                    background-color:#2f2d52;
+                    padding: 20px;
+                    border-radius: 10px;
+                }
+                span{
+                    font-size: 12px;
+                    color: #f9f9f9;
+                    align-self: flex-start;
+                }
+            }
+        }
        
     }
 
@@ -79,7 +135,7 @@
             flex: 1;
             border: none;
             outline: none;
-            padding: 20px;
+            padding: 16px;
             background-color: #2f2d52;
             width: 100%;
             border-radius: 10px;
@@ -104,7 +160,7 @@
                 cursor: pointer;
             }
         }
-        .sendbutton{
+        .button{
             border: none;
             outline: none;
             background-color: #8da4f1;
@@ -113,6 +169,30 @@
             border-radius: 10px;
             cursor: pointer;
         }
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+          }
+          
+          .button span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+          }
+          
+          .button:hover span {
+            padding-right: 25px;
+          }
+          
+          .button:hover span:after {
+            opacity: 1;
+            right: 0;
+          }
     }
 }
 

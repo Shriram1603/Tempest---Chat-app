@@ -34,7 +34,52 @@ const Chat = () => {
       </div>
 
 
-      <div className="center"></div>
+      <div className="center">
+
+        <div className="message">
+          <img src='/assets/avatar.png'/>
+          <div className="texts">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias sint a cupiditate commodi fugiat? Minima eveniet blanditiis dignissimos consequatur, expedita facere. Natus ex nulla error rem fugiat, repudiandae nobis velit.</p>
+            <span>1 min ago</span>
+          </div>
+        </div>
+        <div className="message own">
+          
+          <div className="texts">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias sint a cupiditate commodi fugiat? Minima eveniet blanditiis dignissimos consequatur, expedita facere. Natus ex nulla error rem fugiat, repudiandae nobis velit.</p>
+            <span>1 min ago</span>
+          </div>
+        </div>
+        <div className="message">
+          <img src='/assets/avatar.png'/>
+          <div className="texts">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias sint a cupiditate commodi fugiat? Minima eveniet blanditiis dignissimos consequatur, expedita facere. Natus ex nulla error rem fugiat, repudiandae nobis velit.</p>
+            <span>1 min ago</span>
+          </div>
+        </div>
+        <div className="message own">
+          <div className="texts">
+          <img src='/assets/tanjiro.jpg' />
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias sint a cupiditate commodi fugiat? Minima eveniet blanditiis dignissimos consequatur, expedita facere. Natus ex nulla error rem fugiat, repudiandae nobis velit.</p>
+            <span>1 min ago</span>
+          </div>
+        </div>
+        <div className="message">
+          <img src='/assets/avatar.png'/>
+          <div className="texts">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias sint a cupiditate commodi fugiat? Minima eveniet blanditiis dignissimos consequatur, expedita facere. Natus ex nulla error rem fugiat, repudiandae nobis velit.</p>
+            <span>1 min ago</span>
+          </div>
+        </div>
+        <div className="message own">
+          
+          <div className="texts">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias sint a cupiditate commodi fugiat? Minima eveniet blanditiis dignissimos consequatur, expedita facere. Natus ex nulla error rem fugiat, repudiandae nobis velit.</p>
+            <span>1 min ago</span>
+          </div>
+        </div>
+
+      </div>
 
       <div className="bottom">
         <div className="icon">
@@ -50,7 +95,7 @@ const Chat = () => {
             {open ?<EmojiPicker onEmojiClick={handleEmoji}/>:null}
           </div>
         </div>
-        <button className='sendbutton'>Send</button>
+        <button className='button'><span>Send</span></button>
       </div>
     </div>
   )
