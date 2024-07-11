@@ -41,6 +41,11 @@
                 padding: 10px 20px;
                 border-radius: 10px;
                 cursor: pointer;
+
+                &:disabled{
+                    background-color: #8da4f1a8;
+                    cursor: not-allowed;
+                }
             }
             .button span {
                 cursor: pointer;
