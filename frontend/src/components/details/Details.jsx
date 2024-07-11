@@ -1,12 +1,17 @@
 import React from 'react'
 import "./details.css"
+import { auth } from '../../lib/firebase'
+import { useUserStore } from '../../lib/userStore';
 
 const Details = () => {
+
+  const{currentUser}= useUserStore();
+
   return (
     <div className='details'>
 
       <div className='user'>
-        <img src='/assets/avatar.png'/>
+        <img src={'/assets/avatar.png'}/>
         <h2>Username</h2>
         <p>cant talk Tempest Only</p>
       </div>
@@ -77,7 +82,7 @@ const Details = () => {
           </div>
         </div>
         <button className='button'><span>Block User</span></button>
-        <button className='logoutbutton'><span>Logout</span></button>
+        <button className='logoutbutton' onClick={()=>auth.signOut()}><span>Logout</span></button>
 
       </div>
     </div>
