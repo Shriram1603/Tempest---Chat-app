@@ -4,6 +4,8 @@ import { useUserStore } from '../../../lib/userStore';
 export const Userinfo = () => {
 
   const {currentUser}= useUserStore();
+
+  console.log(currentUser.avatar)
     
 
   return (
