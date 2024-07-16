@@ -13,11 +13,11 @@ const Chatlist = () => {
   const { changeChat } = useChatStore();
 
   useEffect(() => {
-    const unSub = onSnapshot(doc(db, "userchats", currentUser.id), async (res) => {
+    const unSub = onSnapshot(doc(db, 'userchats', currentUser.id), async (res) => {
       const items = res.data().chats;
 
       const promises = items.map(async (item) => {
-        const docRef = doc(db, "users", item.recieverId);
+        const docRef = doc(db, 'users', item.recieverId);
         const userDocSnap = await getDoc(docRef);
         const user = userDocSnap.data();
 
@@ -52,7 +52,7 @@ const Chatlist = () => {
         />
       </div>
       {chats.map((chat) => (
-        <div className="Items" key={chat.chatId} onClick={() => handleSelect(chat)}>
+        <div className="Items" key={chat.chatId} onClick={() => handleSelect(chat)} style={{ backgroundColor: chat.isSeen ? 'transparent' : '#ff4b5c' }}>
           <img src={chat.user.avatar || '/assets/avatar.png'} alt="User Avatar" />
           <div className="texts">
             <span>{chat.user.username}</span>

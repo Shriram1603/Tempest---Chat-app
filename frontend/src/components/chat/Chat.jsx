@@ -1,111 +1,110 @@
-import React, { useEffect, useRef } from 'react'
-import {useState} from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import EmojiPicker from "emoji-picker-react";
-import "./chat.css"
-import { doc, onSnapshot } from 'firebase/firestore';
+import "./chat.css";
+import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { useChatStore } from '../../lib/chatStore';
-
+import { useUserStore } from '../../lib/userStore';
 
 const Chat = () => {
-
-  const[chat,setChat]=useState();
-  const endRef=useRef(null)
-
-  const {chatId} = useChatStore();
-
-  useEffect(() => {
-    endRef.current.scrollIntoView({behavior:"smooth"})
-  },[])
+  const { currentUser } = useUserStore();
+  const { chatId, userId } = useChatStore();
+  const [chat, setChat] = useState();
+  const endRef = useRef(null);
+  const [open, setOpen] = useState(false);
+  const [text, setText] = useState("");
 
   useEffect(() => {
-    const onSub = onSnapshot(doc(db,"chats",chatId),(res)=>{
-    setChat(res.data());
-    })
+    endRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [chat]);
+
+  useEffect(() => {
+    const onSub = onSnapshot(doc(db, "chats", chatId), (res) => {
+      setChat(res.data());
+    });
 
     return () => {
       onSub();
-    }
+    };
   }, [chatId]);
 
-  console.log(chat)
+  const handleEmoji = (e) => {
+    setText(prev => prev + e.emoji);
+    setOpen(false);
+  };
 
-
-  const[open,setOpen]=useState(false)
-  const[Text,setText]=useState("")
-
-
-  const handleEmoji = e =>{
-    setText(prev => prev + e.emoji)
-    setOpen(false)
-  }
+  const handleSend = async (e) => {
+    e.preventDefault();
+    if (text === "") return;
+  
+    try {
+      await updateDoc(doc(db, "chats", chatId), {
+        message: arrayUnion({
+          text,
+          user: currentUser,
+          createAt: Date.now(),
+        }),
+      });
+  
+      const userIDs = [currentUser.id, userId];
+  
+      userIDs.forEach(async (id) => {
+        const userChatRef = doc(db, "userchats", id);
+        const userChatSnapshot = await getDoc(userChatRef);
+  
+        if (userChatSnapshot.exists()) {
+          const userChatsData = userChatSnapshot.data();
+          const chatIndex = userChatsData.chats.findIndex(chat => chat.chatId === chatId);
+          if (chatIndex > -1) {
+            userChatsData.chats[chatIndex].lastMessage = text;
+            userChatsData.chats[chatIndex].isSeen = id === currentUser.id;
+            userChatsData.chats[chatIndex].updatedAt = Date.now();
+  
+            await updateDoc(userChatRef, {
+              chats: userChatsData.chats,
+            });
+          }
+        }
+      });
+  
+      setText("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
 
   return (
     <div className='chat'>
-
       <div className="top">
         <div className="user">
           <img src="/assets/avatar.png" alt="Avatar" />
           <div className="txtes">
             <span>Username</span>
-            <p>cant talk whatsapp only</p>
+            <p>can't talk WhatsApp only</p>
           </div>
         </div>
-          <div className="icons">
-            <img src="/assets/phone.png" alt="More" />
-            <img src="/assets/video.png" alt="Video" />
-            <img src="/assets/info.png" alt="Edit" />
-          </div>
+        <div className="icons">
+          <img src="/assets/phone.png" alt="More" />
+          <img src="/assets/video.png" alt="Video" />
+          <img src="/assets/info.png" alt="Edit" />
+        </div>
       </div>
-
 
       <div className="center">
-
-        <div className="message">
-          <img src='/assets/avatar.png'/>
-          <div className="texts">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias sint a cupiditate commodi fugiat? Minima eveniet blanditiis dignissimos consequatur, expedita facere. Natus ex nulla error rem fugiat, repudiandae nobis velit.</p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className="message own">
-          
-          <div className="texts">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias sint a cupiditate commodi fugiat? Minima eveniet blanditiis dignissimos consequatur, expedita facere. Natus ex nulla error rem fugiat, repudiandae nobis velit.</p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className="message">
-          <img src='/assets/avatar.png'/>
-          <div className="texts">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias sint a cupiditate commodi fugiat? Minima eveniet blanditiis dignissimos consequatur, expedita facere. Natus ex nulla error rem fugiat, repudiandae nobis velit.</p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className="message own">
-          <div className="texts">
-          <img src='/assets/tanjiro.jpg' />
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias sint a cupiditate commodi fugiat? Minima eveniet blanditiis dignissimos consequatur, expedita facere. Natus ex nulla error rem fugiat, repudiandae nobis velit.</p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className="message">
-          <img src='/assets/avatar.png'/>
-          <div className="texts">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias sint a cupiditate commodi fugiat? Minima eveniet blanditiis dignissimos consequatur, expedita facere. Natus ex nulla error rem fugiat, repudiandae nobis velit.</p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className="message own">
-          
-          <div className="texts">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias sint a cupiditate commodi fugiat? Minima eveniet blanditiis dignissimos consequatur, expedita facere. Natus ex nulla error rem fugiat, repudiandae nobis velit.</p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div ref={endRef}></div>
-
+  {chat?.message?.map((msg) => (
+    <div className={`message ${msg.user.id === currentUser.id ? 'own' : ''}`} key={msg?.createAt}>
+     { msg?.user?.id !== currentUser.id && <img src={msg?.user?.avatar || "/assets/avatar.png"} alt="Avatar" />}
+      <div className="texts">
+        {msg.img && <img src={msg.img} alt="Attached" />}
+        <p>{msg.text}</p>
+        <span>{new Date(msg.createAt).toLocaleTimeString()}</span>
       </div>
+    </div>
+  ))}
+  <div ref={endRef}></div>
+</div>
+
 
       <div className="bottom">
         <div className="icon">
@@ -113,18 +112,22 @@ const Chat = () => {
           <img src="/assets/camera.png" alt="" />
           <img src="/assets/mic.png" alt="" />
         </div>
-
-        <input type="text" placeholder='Type a Message...'value={Text} onChange={(e)=>setText(e.target.value)}/>
+        <input
+          type="text"
+          placeholder='Type a Message...'
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
         <div className="emoji">
-          <img src="/assets/emoji.png" alt="Emoji" onClick={()=>setOpen(!open)}/>
+          <img src="/assets/emoji.png" alt="Emoji" onClick={() => setOpen(!open)} />
           <div className="picker">
-            {open ?<EmojiPicker onEmojiClick={handleEmoji}/>:null}
+            {open ? <EmojiPicker onEmojiClick={handleEmoji} /> : null}
           </div>
         </div>
-        <button className='button'><span>Send</span></button>
+        <button className='button' onClick={handleSend}><span>Send</span></button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Chat
+export default Chat;
