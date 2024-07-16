@@ -14,6 +14,36 @@ const Chat = () => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
 
+  const [chats, setChats] = useState([]);
+
+  useEffect(() => {
+    const unSub = onSnapshot(doc(db, 'userchats', currentUser.id), async (res) => {
+      const items = res.data().chats;
+
+      const promises = items.map(async (item) => {
+        const docRef = doc(db, 'users', item.recieverId);
+        const userDocSnap = await getDoc(docRef);
+        const user = userDocSnap.data();
+
+        return { ...item, user };
+      });
+
+      const chatData = await Promise.all(promises);
+
+      setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
+    });
+
+    return () => {
+      unSub();
+    };
+  }, [currentUser.id]);
+
+  const [img,setImg]=useState({
+    file:null,
+    url:"",
+  }
+  );
+
   useEffect(() => {
     endRef.current.scrollIntoView({ behavior: "smooth" });
   }, [chat]);
@@ -36,13 +66,21 @@ const Chat = () => {
   const handleSend = async (e) => {
     e.preventDefault();
     if (text === "") return;
+
+    let imgUrl = null;
   
     try {
+
+      if(img.file){
+        imgUrl = await upload(img.file);
+      }
+
       await updateDoc(doc(db, "chats", chatId), {
         message: arrayUnion({
           text,
           user: currentUser,
           createAt: Date.now(),
+          ...(imgUrl && {img: imgUrl }),
         }),
       });
   
@@ -57,7 +95,7 @@ const Chat = () => {
           const chatIndex = userChatsData.chats.findIndex(chat => chat.chatId === chatId);
           if (chatIndex > -1) {
             userChatsData.chats[chatIndex].lastMessage = text;
-            userChatsData.chats[chatIndex].isSeen = id === currentUser.id;
+            userChatsData.chats[chatIndex].isSeen = id === currentUser.id ? true : false;
             userChatsData.chats[chatIndex].updatedAt = Date.now();
   
             await updateDoc(userChatRef, {
@@ -71,19 +109,38 @@ const Chat = () => {
     } catch (error) {
       console.log(error);
     }
+
+    setImg({
+      file:null,
+      url:"",
+    })
+
+    setText("");
   };
+
+  const handleImage=(e)=>{
+
+    if(e.target.files[0]){
+    setImg({
+        file: e.target.files[0],
+        url: URL.createObjectURL(e.target.files[0])
+    })}
+}
   
 
   return (
     <div className='chat'>
       <div className="top">
-        <div className="user">
-          <img src="/assets/avatar.png" alt="Avatar" />
+        {chats.map((chat) => (
+          
+          <div className="user">
+          <img src={chat?.user?.avatar || "/assets/avatar.png"} alt="Avatar" />
           <div className="txtes">
-            <span>Username</span>
+            <span>{chat?.user?.username}</span>
             <p>can't talk WhatsApp only</p>
           </div>
         </div>
+        ))}
         <div className="icons">
           <img src="/assets/phone.png" alt="More" />
           <img src="/assets/video.png" alt="Video" />
@@ -102,13 +159,22 @@ const Chat = () => {
       </div>
     </div>
   ))}
+  {img.url && <div className="message own">
+    <div className="texts">
+      <img src={img.url} alt="" />
+      </div>
+    
+    </div>  }
   <div ref={endRef}></div>
 </div>
 
 
       <div className="bottom">
         <div className="icon">
+          <label htmlFor="file">
           <img src="/assets/img.png" alt="" />
+          </label>
+          <input type="file" id="file" style={{ display: "none" }} onChange={handleImage} />
           <img src="/assets/camera.png" alt="" />
           <img src="/assets/mic.png" alt="" />
         </div>
